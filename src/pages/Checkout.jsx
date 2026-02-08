@@ -37,6 +37,17 @@ const Checkout = () => {
         }
 
         await api.post("/checkout", { items: payloadItems });
+
+        const cartItemIds = cartItems
+          .map((item) => item._id)
+          .filter(Boolean);
+
+        if (cartItemIds.length > 0) {
+          await Promise.allSettled(
+            cartItemIds.map((cartId) => api.delete(`/cart/${cartId}`)),
+          );
+        }
+
         setStatus("success");
         setMessage("Checkout berhasil. Mengarahkan ke riwayat transaksi...");
         setTimeout(() => navigate("/transactions"), 800);
