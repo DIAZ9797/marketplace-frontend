@@ -19,69 +19,52 @@ const Register = () => {
     }
   };
 
-  const styles = {
-    container: {
-      maxWidth: "400px",
-      margin: "80px auto",
-      padding: "30px",
-      textAlign: "center",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      margin: "10px 0",
-      boxSizing: "border-box",
-    },
-    btn: {
-      width: "100%",
-      padding: "10px",
-      background: "green",
-      color: "white",
-      border: "none",
-      cursor: "pointer",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <h2>Daftar Akun</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Nama"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          style={styles.input}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={styles.input}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.btn}>
-          Daftar
-        </button>
-      </form>
-      <Link
-        to="/login"
-        style={{ display: "block", marginTop: "15px", color: "#007bff" }}
-      >
-        Sudah punya akun? Login
-      </Link>
+    <div className="container">
+      <div className="auth-shell card stack">
+        <h2 style={{ margin: 0 }}>Daftar Akun</h2>
+        <form onSubmit={handleRegister} className="stack">
+          <div className="form-group">
+            <label>Nama</label>
+            <input
+              type="text"
+              placeholder="Nama"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="input"
+            />
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="input"
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="input"
+            />
+          </div>
+          <button type="submit" className="btn-success">
+            Daftar
+          </button>
+        </form>
+        <Link to="/login" className="auth-link">
+          Sudah punya akun? Login
+        </Link>
+      </div>
     </div>
   );
 };

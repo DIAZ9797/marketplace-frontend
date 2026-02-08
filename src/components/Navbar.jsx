@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   const handleLogout = () => {
@@ -11,71 +12,51 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  const styles = {
-    nav: {
-      background: "#007bff",
-      padding: "15px 20px",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      alignItems: "center",
-      color: "white",
-    },
-    logo: {
-      color: "white",
-      textDecoration: "none",
-      fontSize: "1.5rem",
-      fontWeight: "bold",
-      marginBottom: "5px",
-    },
-    menu: {
-      display: "flex",
-      gap: "15px",
-      alignItems: "center",
-      flexWrap: "wrap",
-    },
-    link: {
-      color: "white",
-      textDecoration: "none",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-    },
-    btn: {
-      background: "#dc3545",
-      color: "white",
-      border: "none",
-      padding: "6px 12px",
-      borderRadius: "4px",
-      cursor: "pointer",
-      fontSize: "0.9rem",
-    },
-  };
-
   return (
-    <nav style={styles.nav}>
-      <Link to="/" style={styles.logo}>
-        MARKETPLACE
-      </Link>
-      <div style={styles.menu}>
-        <Link to="/" style={styles.link}>
+    <nav className="navbar">
+      <div className="navbar-inner">
+        <Link to="/" className="brand" onClick={() => setMenuOpen(false)}>
+          MARKETPLACE
+        </Link>
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          Menu
+        </button>
+      </div>
+      <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
+        <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>
           Home
         </Link>
-        <Link to="/products" style={styles.link}>
+        <Link
+          to="/products"
+          className="nav-link"
+          onClick={() => setMenuOpen(false)}
+        >
           Produk
         </Link>
-        <Link to="/cart" style={styles.link}>
+        <Link to="/cart" className="nav-link" onClick={() => setMenuOpen(false)}>
           Keranjang
         </Link>
         {token ? (
-          <button onClick={handleLogout} style={styles.btn}>
+          <button onClick={handleLogout} className="nav-btn">
             Keluar
           </button>
         ) : (
           <>
-            <Link to="/login" style={styles.link}>
+            <Link
+              to="/login"
+              className="nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
               Masuk
             </Link>
-            <Link to="/register" style={styles.link}>
+            <Link
+              to="/register"
+              className="nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
               Daftar
             </Link>
           </>

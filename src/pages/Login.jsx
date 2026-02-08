@@ -12,69 +12,48 @@ const Login = () => {
     try {
       const res = await api.post("/users/login", { email, password });
       localStorage.setItem("token", res.data.token);
-
-      navigate("/"); // <--- PAKAI INI
+      navigate("/");
       window.location.reload();
     } catch (err) {
       alert("Login gagal, cek email/password");
     }
   };
 
-  const styles = {
-    container: {
-      maxWidth: "400px",
-      margin: "80px auto",
-      padding: "30px",
-      textAlign: "center",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      margin: "10px 0",
-      boxSizing: "border-box",
-    },
-    btn: {
-      width: "100%",
-      padding: "10px",
-      background: "#007bff",
-      color: "white",
-      border: "none",
-      cursor: "pointer",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={styles.input}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.btn}>
-          Masuk
-        </button>
-      </form>
-      <Link
-        to="/register"
-        style={{ display: "block", marginTop: "15px", color: "#007bff" }}
-      >
-        Belum punya akun? Daftar
-      </Link>
+    <div className="container">
+      <div className="auth-shell card stack">
+        <h2 style={{ margin: 0 }}>Masuk Akun</h2>
+        <form onSubmit={handleLogin} className="stack">
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="input"
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="input"
+            />
+          </div>
+          <button type="submit" className="btn-primary">
+            Masuk
+          </button>
+        </form>
+        <Link to="/register" className="auth-link">
+          Belum punya akun? Daftar
+        </Link>
+      </div>
     </div>
   );
 };
