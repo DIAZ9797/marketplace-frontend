@@ -474,3 +474,18 @@ a {
   color: var(--primary-dark);
   font-weight: 700;
 }
+
+.toast-success {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  background: #15803d;
+  color: #ffffff;
+  padding: 0.7rem 0.95rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  z-index: 60;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
