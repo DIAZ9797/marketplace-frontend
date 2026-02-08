@@ -16,7 +16,10 @@ ReactGA.initialize("G-T4Q9SYSGS9");
 const PageTracker = () => {
   const location = useLocation();
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname });
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname + location.search,
+    });
   }, [location]);
   return null;
 };
