@@ -29,7 +29,7 @@ const Cart = () => {
   }, [navigate, fetchCart]);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Hapus item ini?")) {
+    if (window.confirm("Hapus?")) {
       await api.delete(`/cart/${id}`);
       fetchCart();
     }
@@ -42,21 +42,47 @@ const Cart = () => {
   }, 0);
 
   const styles = {
-    container: { maxWidth: "800px", margin: "30px auto", padding: "20px" },
+    container: { maxWidth: "800px", margin: "20px auto", padding: "15px" },
     item: {
       display: "flex",
+      flexWrap: "wrap",
       justifyContent: "space-between",
       padding: "15px",
-      borderBottom: "1px solid #ddd",
+      border: "1px solid #eee",
+      borderRadius: "8px",
+      marginBottom: "10px",
+      background: "white",
       alignItems: "center",
     },
+    info: { flex: "1 1 200px" },
+    title: { fontSize: "1rem", margin: "0 0 5px 0" },
+    sub: { color: "#666", fontSize: "0.9rem" },
     btnDel: {
-      background: "red",
+      background: "#ff4d4d",
       color: "white",
       border: "none",
-      padding: "5px 10px",
+      padding: "8px 12px",
       borderRadius: "4px",
       cursor: "pointer",
+      fontSize: "0.8rem",
+      marginTop: "5px",
+    },
+    summary: {
+      padding: "20px",
+      background: "#f1f1f1",
+      borderRadius: "8px",
+      marginTop: "20px",
+      textAlign: "right",
+    },
+    checkout: {
+      display: "inline-block",
+      background: "green",
+      color: "white",
+      padding: "10px 20px",
+      textDecoration: "none",
+      borderRadius: "5px",
+      marginTop: "10px",
+      fontWeight: "bold",
     },
   };
 
@@ -64,17 +90,17 @@ const Cart = () => {
     <div style={styles.container}>
       <h2>Keranjang Belanja</h2>
       {items.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-          <p>Keranjang kosong</p>
-        </div>
+        <p style={{ textAlign: "center", marginTop: "30px" }}>
+          Keranjang kosong
+        </p>
       ) : (
         items.map((item) => (
           <div key={item._id || Math.random()} style={styles.item}>
-            <div>
-              <h4>{item.product?.name || item.name || "Produk"}</h4>
-              <p>
-                Qty: {item.quantity} x Rp{" "}
-                {(item.product?.price || item.price || 0).toLocaleString()}
+            <div style={styles.info}>
+              <h4 style={styles.title}>{item.product?.name || "Produk"}</h4>
+              <p style={styles.sub}>
+                {item.quantity} x Rp{" "}
+                {(item.product?.price || 0).toLocaleString()}
               </p>
             </div>
             <button
@@ -86,23 +112,11 @@ const Cart = () => {
           </div>
         ))
       )}
-
       {items.length > 0 && (
-        <div style={{ marginTop: "30px", textAlign: "right" }}>
+        <div style={styles.summary}>
           <h3>Total: Rp {total.toLocaleString()}</h3>
-          <Link to="/checkout">
-            <button
-              style={{
-                background: "green",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Checkout Sekarang
-            </button>
+          <Link to="/checkout" style={styles.checkout}>
+            Checkout
           </Link>
         </div>
       )}

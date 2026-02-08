@@ -14,32 +14,40 @@ const Navbar = () => {
   const styles = {
     nav: {
       background: "#007bff",
-      padding: "15px 30px",
+      padding: "15px 20px",
       display: "flex",
+      flexWrap: "wrap",
       justifyContent: "space-between",
       alignItems: "center",
       color: "white",
-    },
-    link: {
-      color: "white",
-      textDecoration: "none",
-      marginLeft: "20px",
-      fontWeight: "500",
     },
     logo: {
       color: "white",
       textDecoration: "none",
       fontSize: "1.5rem",
       fontWeight: "bold",
+      marginBottom: "5px",
+    },
+    menu: {
+      display: "flex",
+      gap: "15px",
+      alignItems: "center",
+      flexWrap: "wrap",
+    },
+    link: {
+      color: "white",
+      textDecoration: "none",
+      fontWeight: "500",
+      fontSize: "0.95rem",
     },
     btn: {
       background: "#dc3545",
       color: "white",
       border: "none",
-      padding: "5px 15px",
+      padding: "6px 12px",
       borderRadius: "4px",
-      marginLeft: "20px",
       cursor: "pointer",
+      fontSize: "0.9rem",
     },
   };
 
@@ -48,7 +56,7 @@ const Navbar = () => {
       <Link to="/" style={styles.logo}>
         MARKETPLACE
       </Link>
-      <div>
+      <div style={styles.menu}>
         <Link to="/" style={styles.link}>
           Home
         </Link>

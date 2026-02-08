@@ -15,22 +15,12 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleAdd = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Harap Login dulu!");
-      navigate("/login");
-      return;
-    }
-
+    if (!localStorage.getItem("token")) return navigate("/login");
     try {
-      await api.post("/cart", {
-        productId: id,
-        product_id: id,
-        quantity: 1,
-      });
-      alert("Berhasil masuk keranjang!");
+      await api.post("/cart", { productId: id, quantity: 1 });
+      alert("Masuk keranjang!");
     } catch (err) {
-      alert("Gagal menambahkan ke keranjang");
+      alert("Gagal menambah ke keranjang");
     }
   };
 
@@ -42,36 +32,57 @@ const ProductDetail = () => {
   const styles = {
     container: {
       maxWidth: "800px",
-      margin: "50px auto",
-      display: "flex",
-      gap: "30px",
+      margin: "20px auto",
       padding: "20px",
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "30px",
+      justifyContent: "center",
     },
-    img: { width: "300px", objectFit: "contain" },
+    imgWrapper: { flex: "1 1 300px", textAlign: "center" },
+    img: {
+      maxWidth: "100%",
+      maxHeight: "300px",
+      objectFit: "contain",
+      borderRadius: "8px",
+    },
+    info: { flex: "1 1 300px", padding: "10px" },
+    title: { fontSize: "1.8rem", marginBottom: "10px" },
+    price: {
+      fontSize: "1.5rem",
+      color: "green",
+      fontWeight: "bold",
+      marginBottom: "15px",
+    },
+    desc: { lineHeight: "1.6", color: "#555", marginBottom: "20px" },
     btn: {
+      width: "100%",
+      padding: "12px",
       background: "#007bff",
       color: "white",
       border: "none",
-      padding: "10px 20px",
       borderRadius: "5px",
       cursor: "pointer",
-      marginTop: "20px",
+      fontSize: "1rem",
+      fontWeight: "bold",
     },
   };
 
   return (
     <div style={styles.container}>
-      <img
-        src={product.image || "https://via.placeholder.com/300"}
-        alt={product.name}
-        style={styles.img}
-      />
-      <div>
-        <h1>{product.name}</h1>
-        <h2 style={{ color: "green" }}>Rp {product.price?.toLocaleString()}</h2>
-        <p>{product.description}</p>
+      <div style={styles.imgWrapper}>
+        <img
+          src={product.image || "https://via.placeholder.com/300"}
+          alt={product.name}
+          style={styles.img}
+        />
+      </div>
+      <div style={styles.info}>
+        <h1 style={styles.title}>{product.name}</h1>
+        <p style={styles.price}>Rp {product.price.toLocaleString()}</p>
+        <p style={styles.desc}>{product.description}</p>
         <button onClick={handleAdd} style={styles.btn}>
-          + Masukkan Keranjang
+          + Tambah Keranjang
         </button>
       </div>
     </div>
