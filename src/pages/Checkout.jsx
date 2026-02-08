@@ -4,75 +4,68 @@ import api from "../api";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState("processing");
+  const [message, setMessage] = useState("Memproses checkout...");
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
-  }, [navigate]);
+    const processCheckout = async () => {
+      if (!localStorage.getItem("token")) {
+        navigate("/login");
+        return;
+      }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      await api.post("/checkout", {
-        receiverName: name,
-        address,
-        phone,
-      });
-      alert("Pesanan berhasil dibuat!");
-      navigate("/transactions");
-    } catch (err) {
-      console.error(err);
-      alert("Gagal membuat pesanan");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+      try {
+        const cartRes = await api.get("/cart");
+        const data = cartRes.data;
+        const cartItems =
+          data.items ||
+          data.products ||
+          data.cart?.items ||
+          (Array.isArray(data) ? data : []);
+
+        const payloadItems = cartItems
+          .map((item) => ({
+            productId: item.product?._id || item.productId,
+            quantity: item.quantity || 1,
+          }))
+          .filter((item) => item.productId);
+
+        if (payloadItems.length === 0) {
+          setStatus("error");
+          setMessage("Keranjang kosong, tidak ada item untuk checkout.");
+          return;
+        }
+
+        await api.post("/checkout", { items: payloadItems });
+        setStatus("success");
+        setMessage("Checkout berhasil. Mengarahkan ke riwayat transaksi...");
+        setTimeout(() => navigate("/transactions"), 800);
+      } catch (err) {
+        console.error(err);
+        if (err.response?.status === 401) {
+          navigate("/login");
+          return;
+        }
+        setStatus("error");
+        setMessage("Checkout gagal. Silakan coba lagi.");
+      }
+    };
+
+    processCheckout();
+  }, [navigate]);
 
   return (
     <div className="container">
       <div className="auth-shell card stack">
-        <h2 style={{ margin: 0 }}>Konfirmasi Pesanan</h2>
-        <form onSubmit={handleSubmit} className="stack">
-          <div className="form-group">
-            <label>Nama Penerima</label>
-            <input
-              type="text"
-              required
-              className="input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Alamat Lengkap</label>
-            <input
-              type="text"
-              required
-              className="input"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Nomor WhatsApp</label>
-            <input
-              type="number"
-              required
-              className="input"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn-success" disabled={submitting}>
-            {submitting ? "Memproses..." : "Bayar Sekarang"}
+        <h2 style={{ margin: 0 }}>Checkout</h2>
+        <p className="muted" style={{ margin: 0 }}>
+          {message}
+        </p>
+        {status === "error" && (
+          <button className="btn-primary" onClick={() => navigate("/cart")}>
+            Kembali ke Keranjang
           </button>
-        </form>
+        )}
       </div>
     </div>
   );
