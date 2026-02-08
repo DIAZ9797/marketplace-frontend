@@ -1,6 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import ReactGA from "react-ga4";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer"; // Import Footer
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -8,6 +10,16 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
+ReactGA.initialize("G-T4Q9SYSGS9");
+
+const PageTracker = () => {
+  const location = useLocation();
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: location.pathname });
+  }, [location]);
+  return null;
+};
 
 function App() {
   const styles = {
@@ -17,6 +29,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <PageTracker />
       <div style={styles.app}>
         <Navbar />
         <div style={styles.content}>
