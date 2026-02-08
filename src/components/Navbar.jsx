@@ -39,6 +39,15 @@ const Navbar = () => {
         <Link to="/cart" className="nav-link" onClick={() => setMenuOpen(false)}>
           Keranjang
         </Link>
+        {token && (
+          <Link
+            to="/transactions"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            Transaksi
+          </Link>
+        )}
         {token ? (
           <button onClick={handleLogout} className="nav-btn">
             Keluar
