@@ -5,7 +5,7 @@ import api from "../api";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Kita akan pakai ini sekarang
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -13,10 +13,8 @@ const Login = () => {
       const res = await api.post("/users/login", { email, password });
       localStorage.setItem("token", res.data.token);
 
-      // PERBAIKAN: Gunakan navigate agar tidak refresh halaman (SPA)
-      // window.location.href = "/"; <--- HAPUS INI
       navigate("/"); // <--- PAKAI INI
-      window.location.reload(); // Reload sedikit diperlukan agar Navbar update status login
+      window.location.reload();
     } catch (err) {
       alert("Login gagal, cek email/password");
     }

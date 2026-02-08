@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
-// Setup Axios Global (Biar otomatis connect ke Backend Render)
 import axios from "axios";
 axios.defaults.baseURL = "https://backend-tk-pugd.onrender.com/api";
 axios.interceptors.request.use(

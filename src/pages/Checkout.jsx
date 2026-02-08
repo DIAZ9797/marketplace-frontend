@@ -8,7 +8,7 @@ const Checkout = () => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
-  }, [navigate]); // <--- PERBAIKAN: Tambahkan navigate di sini
+  }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
