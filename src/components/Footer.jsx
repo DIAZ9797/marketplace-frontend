@@ -17,16 +17,6 @@ const Footer = () => {
       <p style={styles.text}>
         &copy; 2026 Marketplace Project. All Rights Reserved.
       </p>
-      <p
-        style={{
-          ...styles.text,
-          color: "#ccc",
-          fontSize: "0.8rem",
-          marginTop: "5px",
-        }}
-      >
-        Created by Muhamad Dicky Azkia
-      </p>
     </footer>
   );
 };
