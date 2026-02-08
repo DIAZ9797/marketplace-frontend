@@ -6,6 +6,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     api
@@ -18,9 +19,10 @@ const ProductDetail = () => {
     if (!localStorage.getItem("token")) return navigate("/login");
     try {
       await api.post("/cart", { productId: id, quantity: 1 });
-      alert("Masuk keranjang!");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
     } catch (err) {
-      alert("Gagal menambah ke keranjang");
+      console.error(err);
     }
   };
 
@@ -58,6 +60,7 @@ const ProductDetail = () => {
           </button>
         </div>
       </div>
+      {showToast && <div className="toast-success">Berhasil ditambahkan ke keranjang</div>}
     </div>
   );
 };
