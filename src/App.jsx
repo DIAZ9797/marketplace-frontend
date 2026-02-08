@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import "./styles.css";
 
 ReactGA.initialize("G-T4Q9SYSGS9");
 
@@ -23,19 +24,14 @@ const PageTracker = () => {
   }, [location]);
   return null;
 };
-
+//test
 function App() {
-  const styles = {
-    app: { display: "flex", flexDirection: "column", minHeight: "100vh" },
-    content: { flex: 1 },
-  };
-
   return (
     <BrowserRouter>
       <PageTracker />
-      <div style={styles.app}>
+      <div className="app-shell">
         <Navbar />
-        <div style={styles.content}>
+        <div className="app-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />

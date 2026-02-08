@@ -16,56 +16,28 @@ const Checkout = () => {
     navigate("/");
   };
 
-  const styles = {
-    container: {
-      maxWidth: "500px",
-      margin: "50px auto",
-      padding: "20px",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      margin: "10px 0",
-      boxSizing: "border-box",
-    },
-    btn: {
-      width: "100%",
-      padding: "10px",
-      background: "green",
-      color: "white",
-      border: "none",
-      cursor: "pointer",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <h2>Konfirmasi Pesanan</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nama Penerima"
-          required
-          style={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Alamat Lengkap"
-          required
-          style={styles.input}
-        />
-        <input
-          type="number"
-          placeholder="Nomor WhatsApp"
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.btn}>
-          Bayar Sekarang
-        </button>
-      </form>
+    <div className="container">
+      <div className="auth-shell card stack">
+        <h2 style={{ margin: 0 }}>Konfirmasi Pesanan</h2>
+        <form onSubmit={handleSubmit} className="stack">
+          <div className="form-group">
+            <label>Nama Penerima</label>
+            <input type="text" required className="input" />
+          </div>
+          <div className="form-group">
+            <label>Alamat Lengkap</label>
+            <input type="text" required className="input" />
+          </div>
+          <div className="form-group">
+            <label>Nomor WhatsApp</label>
+            <input type="number" required className="input" />
+          </div>
+          <button type="submit" className="btn-success">
+            Bayar Sekarang
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

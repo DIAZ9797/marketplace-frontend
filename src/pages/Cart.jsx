@@ -41,84 +41,43 @@ const Cart = () => {
     return acc + harga * qty;
   }, 0);
 
-  const styles = {
-    container: { maxWidth: "800px", margin: "20px auto", padding: "15px" },
-    item: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      padding: "15px",
-      border: "1px solid #eee",
-      borderRadius: "8px",
-      marginBottom: "10px",
-      background: "white",
-      alignItems: "center",
-    },
-    info: { flex: "1 1 200px" },
-    title: { fontSize: "1rem", margin: "0 0 5px 0" },
-    sub: { color: "#666", fontSize: "0.9rem" },
-    btnDel: {
-      background: "#ff4d4d",
-      color: "white",
-      border: "none",
-      padding: "8px 12px",
-      borderRadius: "4px",
-      cursor: "pointer",
-      fontSize: "0.8rem",
-      marginTop: "5px",
-    },
-    summary: {
-      padding: "20px",
-      background: "#f1f1f1",
-      borderRadius: "8px",
-      marginTop: "20px",
-      textAlign: "right",
-    },
-    checkout: {
-      display: "inline-block",
-      background: "green",
-      color: "white",
-      padding: "10px 20px",
-      textDecoration: "none",
-      borderRadius: "5px",
-      marginTop: "10px",
-      fontWeight: "bold",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <h2>Keranjang Belanja</h2>
+    <div className="container stack">
+      <h2 className="page-title" style={{ marginBottom: 0 }}>
+        Keranjang Belanja
+      </h2>
       {items.length === 0 ? (
-        <p style={{ textAlign: "center", marginTop: "30px" }}>
-          Keranjang kosong
-        </p>
+        <div className="card muted">Keranjang kosong.</div>
       ) : (
-        items.map((item) => (
-          <div key={item._id || Math.random()} style={styles.item}>
-            <div style={styles.info}>
-              <h4 style={styles.title}>{item.product?.name || "Produk"}</h4>
-              <p style={styles.sub}>
-                {item.quantity} x Rp{" "}
-                {(item.product?.price || 0).toLocaleString()}
+        items.map((item, index) => (
+          <article
+            key={item._id || `${item.product?._id || "item"}-${index}`}
+            className="card cart-item"
+          >
+            <div>
+              <h4 style={{ margin: 0 }}>{item.product?.name || "Produk"}</h4>
+              <p className="muted" style={{ margin: "0.25rem 0 0" }}>
+                {item.quantity} x Rp {(item.product?.price || 0).toLocaleString()}
               </p>
             </div>
             <button
               onClick={() => handleDelete(item._id)}
-              style={styles.btnDel}
+              className="btn-danger"
+              style={{ whiteSpace: "nowrap" }}
             >
               Hapus
             </button>
-          </div>
+          </article>
         ))
       )}
+
       {items.length > 0 && (
-        <div style={styles.summary}>
-          <h3>Total: Rp {total.toLocaleString()}</h3>
-          <Link to="/checkout" style={styles.checkout}>
+        <section className="card" style={{ textAlign: "right" }}>
+          <h3 style={{ marginTop: 0 }}>Total: Rp {total.toLocaleString()}</h3>
+          <Link to="/checkout" className="btn-success">
             Checkout
           </Link>
-        </div>
+        </section>
       )}
     </div>
   );

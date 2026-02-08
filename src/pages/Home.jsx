@@ -1,33 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import api from "../api";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
-  const styles = {
-    container: {
-      textAlign: "center",
-      padding: "100px 20px",
-      background: "#f8f9fa",
-      minHeight: "80vh",
-    },
-    btn: {
-      background: "#007bff",
-      color: "white",
-      padding: "10px 25px",
-      textDecoration: "none",
-      borderRadius: "5px",
-      fontSize: "1.2rem",
-    },
-  };
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    api
+      .get("/products")
+      .then((res) => setProducts(res.data.data || res.data))
+      .catch((err) => {
+        console.error(err);
+        setError("Gagal memuat produk.");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-    <div style={styles.container}>
-      <h1>Selamat Datang di Marketplace</h1>
-      <p style={{ marginBottom: "30px", fontSize: "1.2rem", color: "#666" }}>
-        Temukan berbagai produk digital terbaik di sini.
-      </p>
-      <Link to="/products" style={styles.btn}>
-        Mulai Belanja
-      </Link>
+    <div className="container">
+      <h2 className="page-title">Produk Terbaru</h2>
+      {loading ? (
+        <div className="card muted">Memuat produk...</div>
+      ) : error ? (
+        <div className="card muted">{error}</div>
+      ) : products.length === 0 ? (
+        <div className="card muted">Belum ada produk.</div>
+      ) : (
+        <div className="product-grid">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
